@@ -3,194 +3,355 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>บริษัทของเรา</title>
+    <title>Excellence Corp | High-End Solutions</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
-        body { font-family: 'Kanit', sans-serif; scroll-behavior: smooth; }
-        .gradient-bg { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); }
-        #chat-widget { display: none; }
-        #chat-widget.active { display: flex; }
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@200;400;600&family=Playfair+Display:wght@700;900&display=swap');
+        
+        :root {
+            --gold: #D4AF37;
+            --gold-gradient: linear-gradient(135deg, #BF953F 0%, #FCF6BA 45%, #B38728 70%, #FBF5B7 100%);
+            --dark-bg: #030303;
+        }
+
+        body { 
+            font-family: 'Kanit', sans-serif; 
+            background-color: var(--dark-bg);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .gold-text {
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gold-border { border: 1px solid rgba(212, 175, 55, 0.3); }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .page { display: none; }
+        .active-page { display: block; animation: fadeIn 1s ease; }
+
+        .service-card {
+            background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%);
+            transition: 0.5s;
+        }
+        .service-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-10px);
+        }
+
+        .step-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            line-height: 1;
+            opacity: 0.1;
+            position: absolute;
+            top: -10px;
+            right: 10px;
+        }
+
+        .gold-btn {
+            background: var(--gold-gradient);
+            color: #000;
+            transition: 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .gold-btn:hover {
+            filter: brightness(1.2);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="bg-gray-50">
+<body>
 
-    <!-- Navbar -->
-    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-sm px-6 py-4 flex justify-between items-center">
-        <div class="text-2xl font-bold text-blue-600">OUR LOGO</div>
-        <div class="hidden md:flex space-x-6">
-            <a href="#about" class="hover:text-blue-600">ประวัติ</a>
-            <a href="#portfolio" class="hover:text-blue-600">ผลงาน</a>
-            <a href="#contact" class="hover:text-blue-600">ติดต่อ</a>
+    <div id="particles-js"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-[100] bg-black/90 backdrop-blur-xl border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('home')">
+                <img src="https://img.icons8.com/ios-filled/50/D4AF37/diamond--v1.png" class="w-8 h-8" alt="Logo">
+                <span class="text-xl font-bold gold-text tracking-widest uppercase">Excellence</span>
+            </div>
+            
+            <div class="hidden md:flex space-x-10 text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-400">
+                <button onclick="navigateTo('home')" class="hover:text-gold transition">หน้าแรก</button>
+                <button onclick="navigateTo('about')" class="hover:text-gold transition">เกี่ยวกับเรา</button>
+                <button onclick="navigateTo('portfolio')" class="hover:text-gold transition">ผลงาน</button>
+                <button onclick="navigateTo('contact')" class="hover:text-gold transition">ติดต่อเรา</button>
+            </div>
+
+            <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden text-gold text-2xl">
+                <i class="fas fa-bars-staggered"></i>
+            </button>
         </div>
-        <button onclick="toggleChat()" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm">แชทบอท</button>
+        <div id="mobile-menu" class="hidden md:hidden bg-black p-6 space-y-4 border-b border-gold/20">
+            <button onclick="navigateTo('home')" class="block w-full text-left text-sm uppercase">หน้าแรก</button>
+            <button onclick="navigateTo('about')" class="block w-full text-left text-sm uppercase">เกี่ยวกับเรา</button>
+            <button onclick="navigateTo('portfolio')" class="block w-full text-left text-sm uppercase">ผลงาน</button>
+            <button onclick="navigateTo('contact')" class="block w-full text-left text-sm uppercase">ติดต่อเรา</button>
+        </div>
     </nav>
 
-    <!-- Hero -->
-    <header class="pt-32 pb-20 gradient-bg text-white text-center px-4">
-        <h1 class="text-4xl font-bold mb-4">ยินดีต้อนรับสู่บริษัทของเรา</h1>
-        <p class="opacity-80">เราสร้างสรรค์เทคโนโลยีและบริการที่ตอบโจทย์อนาคต</p>
-    </header>
-
-    <!-- About -->
-    <section id="about" class="py-16 max-w-5xl mx-auto px-6">
-        <h2 class="text-3xl font-bold text-center mb-10">ประวัติบริษัท</h2>
-        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col md:flex-row gap-8 items-center">
-            <div class="w-full md:w-1/3">
-                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=400" class="rounded-xl shadow-md" alt="Company Profile">
+    <!-- Page: HOME -->
+    <main id="page-home" class="page active-page pt-20 relative z-10">
+        <!-- Hero -->
+        <section class="h-[90vh] flex flex-col justify-center items-center text-center px-6">
+            <h2 class="gold-text uppercase tracking-[1em] text-[10px] mb-6 animate__animated animate__fadeIn">Luxury Experience</h2>
+            <h1 class="text-6xl md:text-9xl font-black font-serif leading-none mb-8 animate__animated animate__zoomIn">QUALITY<br>BEYOND</h1>
+            <p class="max-w-2xl text-gray-400 text-lg mb-12 font-light">เราไม่ได้แค่ทำงานให้เสร็จ แต่เราสร้าง "คุณค่า" ที่จะคงอยู่ตลอดไป ด้วยมาตรฐานสากลและความใส่ใจในทุกรายละเอียด</p>
+            <div class="flex space-x-6">
+                <button onclick="navigateTo('portfolio')" class="gold-btn px-10 py-4 rounded-full text-xs uppercase font-bold">ชมผลงานพรีเมียม</button>
             </div>
-            <div class="w-full md:w-2/3">
-                <p class="text-gray-600 leading-relaxed mb-4">
-                    บริษัทของเราเริ่มต้นจากการเป็นทีมวิศวกรซอฟต์แวร์ที่ต้องการเปลี่ยนโลกด้วยนวัตกรรม ก่อตั้งเมื่อปี 2014 ปัจจุบันเรามีพนักงานมากกว่า 50 ท่านที่พร้อมดูแลคุณ
-                </p>
-                <p class="text-gray-600 leading-relaxed">
-                    ด้วยประสบการณ์กว่า 10 ปี เราได้ส่งมอบโปรเจกต์คุณภาพมากกว่า 1,000 รายการ ให้กับองค์กรชั้นนำทั่วประเทศ
-                </p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Portfolio -->
-    <section id="portfolio" class="py-16 bg-gray-100 px-6">
-        <h2 class="text-3xl font-bold text-center mb-10">ผลงานเด่น</h2>
-        <div id="portfolio-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-            <!-- Portfolio items loaded by JS -->
-        </div>
-    </section>
-
-    <!-- Contact Form -->
-    <section id="contact" class="py-16 max-w-7xl mx-auto px-6">
-        <div class="grid md:grid-cols-2 gap-12">
-            <div>
-                <h2 class="text-3xl font-bold mb-6">ช่องทางการติดต่อ</h2>
-                <div class="space-y-4">
-                    <p><i class="fas fa-phone mr-3 text-blue-600"></i> โทร: 063-769-5934</p>
-                    <p><i class="fab fa-facebook mr-3 text-blue-600"></i> เฟสบุ๊ก: <a href="https://facebook.com" class="text-blue-600">เยี่ยมชมแฟนเพจ</a></p>
+        <!-- Services Section -->
+        <section class="py-24 bg-white/5 backdrop-blur-sm">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h3 class="gold-text text-4xl font-serif font-bold">บริการระดับเอ็กซ์คลูซีฟ</h3>
+                    <div class="w-16 h-1 bg-gold mx-auto mt-4"></div>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="service-card p-10 border border-white/10 rounded-2xl text-center" data-aos="fade-up">
+                        <i class="fas fa-gem text-4xl text-gold mb-6"></i>
+                        <h4 class="text-xl font-bold mb-4">การออกแบบสถาปัตยกรรม</h4>
+                        <p class="text-gray-500 text-sm">สร้างสรรค์พื้นที่การใช้ชีวิตที่ผสมผสานความหรูหราและความสวยงามอย่างลงตัว</p>
+                    </div>
+                    <div class="service-card p-10 border border-white/10 rounded-2xl text-center" data-aos="fade-up" data-aos-delay="100">
+                        <i class="fas fa-microchip text-4xl text-gold mb-6"></i>
+                        <h4 class="text-xl font-bold mb-4">นวัตกรรมเทคโนโลยี</h4>
+                        <p class="text-gray-500 text-sm">โซลูชันระบบอัจฉริยะที่ช่วยยกระดับธุรกิจและชีวิตประจำวันให้มีประสิทธิภาพ</p>
+                    </div>
+                    <div class="service-card p-10 border border-white/10 rounded-2xl text-center" data-aos="fade-up" data-aos-delay="200">
+                        <i class="fas fa-handshake text-4xl text-gold mb-6"></i>
+                        <h4 class="text-xl font-bold mb-4">ที่ปรึกษาธุรกิจ</h4>
+                        <p class="text-gray-500 text-sm">วางแผนกลยุทธ์เพื่อความสำเร็จที่ยั่งยืน โดยผู้เชี่ยวชาญเฉพาะทาง</p>
+                    </div>
                 </div>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow-lg">
-                <form id="contactForm" class="space-y-4">
-                    <input type="text" id="name" placeholder="ชื่อ" required class="w-full border p-2 rounded">
-                    <input type="tel" id="phone" placeholder="เบอร์โทร" required class="w-full border p-2 rounded">
-                    <input type="text" id="web" placeholder="เว็บไซต์" class="w-full border p-2 rounded">
-                    <textarea id="detail" placeholder="รายละเอียดโครงการ" class="w-full border p-2 rounded" rows="3"></textarea>
-                    <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">ส่งข้อมูล</button>
-                </form>
+        </section>
+
+        <!-- Process Section -->
+        <section class="py-24 px-6 max-w-7xl mx-auto">
+            <h3 class="text-center text-4xl font-serif gold-text mb-20 font-bold">ขั้นตอนการทำงานของเรา</h3>
+            <div class="grid md:grid-cols-4 gap-6">
+                <div class="relative p-8 border border-white/10 rounded-xl overflow-hidden" data-aos="zoom-in">
+                    <span class="step-number gold-text">01</span>
+                    <h5 class="text-gold font-bold mb-4">รับฟังและวิเคราะห์</h5>
+                    <p class="text-xs text-gray-500 leading-relaxed">เราเริ่มต้นด้วยการรับฟ้งความต้องการของลูกค้าอย่างตั้งใจเพื่อวิเคราะห์ความเป็นไปได้ที่ดีที่สุด</p>
+                </div>
+                <div class="relative p-8 border border-white/10 rounded-xl overflow-hidden" data-aos="zoom-in" data-aos-delay="100">
+                    <span class="step-number gold-text">02</span>
+                    <h5 class="text-gold font-bold mb-4">วางแผนและออกแบบ</h5>
+                    <p class="text-xs text-gray-500 leading-relaxed">ทีมงานจะนำข้อมูลมาสรุปเป็นแผนงานที่ชัดเจน พร้อมการออกแบบที่ตอบโจทย์เฉพาะด้าน</p>
+                </div>
+                <div class="relative p-8 border border-white/10 rounded-xl overflow-hidden" data-aos="zoom-in" data-aos-delay="200">
+                    <span class="step-number gold-text">03</span>
+                    <h5 class="text-gold font-bold mb-4">ลงมือสร้างสรรค์</h5>
+                    <p class="text-xs text-gray-500 leading-relaxed">ทุกกระบวนการผลิตหรือดำเนินงานจะถูกควบคุมโดยผู้เชี่ยวชาญเพื่อความแม่นยำ 100%</p>
+                </div>
+                <div class="relative p-8 border border-white/10 rounded-xl overflow-hidden" data-aos="zoom-in" data-aos-delay="300">
+                    <span class="step-number gold-text">04</span>
+                    <h5 class="text-gold font-bold mb-4">ส่งมอบและดูแล</h5>
+                    <p class="text-xs text-gray-500 leading-relaxed">เราส่งมอบงานที่ตรงตามกำหนดเวลา พร้อมบริการหลังการขายที่รวดเร็วและประทับใจ</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Page: ABOUT -->
+    <main id="page-about" class="page pt-32 pb-24 relative z-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
+                <div data-aos="fade-right">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=800&q=80" class="w-full rounded-2xl filter grayscale hover:grayscale-0 transition duration-700 shadow-2xl" alt="Office">
+                        <div class="absolute -bottom-10 -left-10 bg-gold p-8 text-black font-bold hidden md:block">
+                            <p class="text-4xl">10+ ปี</p>
+                            <p class="text-xs uppercase tracking-widest">แห่งความเป็นเลิศ</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-8" data-aos="fade-left">
+                    <h2 class="text-5xl font-serif font-bold gold-text">ประวัติบริษัท</h2>
+                    <p class="text-gray-400 text-lg leading-relaxed font-light">
+                        เราคือกลุ่มคนทำงานที่เชื่อว่า "ความสมบูรณ์แบบ" ไม่มีทางลัด เริ่มต้นจากการเป็นทีมออกแบบขนาดเล็ก จนกระทั่งปัจจุบันเราได้กลายเป็นบริษัทที่ได้รับความไว้วางใจจากแบรนด์ชั้นนำระดับสากล
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-4">
+                            <i class="fas fa-star text-gold"></i>
+                            <span class="text-sm font-semibold text-gray-300">รางวัลออกแบบดีเด่นปี 2022-2023</span>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <i class="fas fa-star text-gold"></i>
+                            <span class="text-sm font-semibold text-gray-300">ได้รับมาตรฐาน ISO 9001:2015</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
+    </main>
 
-    <!-- Chat Widget -->
-    <div id="chat-widget" class="fixed bottom-24 right-6 w-80 bg-white rounded-xl shadow-2xl flex-col border border-gray-100 z-50">
-        <div class="bg-blue-600 text-white p-3 rounded-t-xl flex justify-between">
-            <span class="text-sm font-semibold">แชทแจ้งโอนเงิน</span>
-            <button onclick="toggleChat()"><i class="fas fa-times"></i></button>
-        </div>
-        <div id="chatBox" class="h-64 p-3 overflow-y-auto text-sm space-y-2 bg-gray-50">
-            <div class="bg-blue-100 p-2 rounded max-w-[80%]">สวัสดีค่ะ แนบสลิปเพื่อแจ้งโอนเงินที่นี่ได้เลย</div>
-        </div>
-        <div class="p-2 border-t flex flex-col gap-2">
-            <div id="fileInfo" class="text-[10px] text-blue-600 hidden"></div>
-            <div class="flex items-center gap-2">
-                <label for="slipFile" class="cursor-pointer text-gray-400 hover:text-blue-600">
-                    <i class="fas fa-paperclip"></i>
-                    <input type="file" id="slipFile" class="hidden" accept="image/*">
-                </label>
-                <input type="text" id="chatInput" placeholder="พิมพ์ข้อความ..." class="flex-1 text-xs border rounded-full px-3 py-1">
-                <button onclick="submitChat()" class="text-blue-600"><i class="fas fa-paper-plane"></i></button>
+    <!-- Page: PORTFOLIO -->
+    <main id="page-portfolio" class="page pt-32 pb-24 relative z-10">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h2 class="text-6xl font-serif gold-text font-bold mb-4">ผลงานดีเด่น</h2>
+            <p class="text-gray-500 uppercase tracking-[0.5em] text-[10px] mb-20">Curated Masterpieces</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" id="portfolio-container">
+                <!-- Portfolios injected here -->
             </div>
         </div>
-    </div>
+    </main>
 
-    <!-- Toggle Chat Button -->
-    <button onclick="toggleChat()" class="fixed bottom-6 right-6 w-14 h-14 bg-blue-600 text-white rounded-full shadow-lg flex items-center justify-center text-2xl z-50">
-        <i class="fas fa-comment-dots"></i>
-    </button>
+    <!-- Page: CONTACT -->
+    <main id="page-contact" class="page pt-32 pb-24 relative z-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-20">
+                <div data-aos="fade-up">
+                    <h2 class="text-5xl font-serif gold-text font-bold mb-10">ช่องทางติดต่อ</h2>
+                    <p class="text-gray-400 mb-12">ทีมงานของเราพร้อมให้บริการและตอบคำถามของคุณตลอด 24 ชั่วโมง</p>
+                    <div class="space-y-8">
+                        <div class="flex items-center space-x-6">
+                            <div class="w-14 h-14 border border-gold/30 rounded-full flex items-center justify-center text-gold text-xl"><i class="fas fa-phone"></i></div>
+                            <div>
+                                <p class="text-xs text-gray-500 uppercase">โทรติดต่อ</p>
+                                <a href="tel:0637695934" class="text-2xl font-bold hover:text-gold transition">063-769-5934</a>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-6">
+                            <div class="w-14 h-14 border border-gold/30 rounded-full flex items-center justify-center text-gold text-xl"><i class="fab fa-facebook-messenger"></i></div>
+                            <div>
+                                <p class="text-xs text-gray-500 uppercase">Facebook Messenger</p>
+                                <a href="#" class="text-xl font-bold hover:text-gold transition">Excellence Official</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="bg-white/5 backdrop-blur-md p-10 rounded-3xl border border-white/10" data-aos="zoom-in">
+                    <form id="contact-form" class="space-y-6">
+                        <input type="text" id="name" placeholder="ชื่อจริง-นามสกุล" required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none focus:border-gold transition">
+                        <input type="tel" id="phone" placeholder="เบอร์โทรศัพท์ติดต่อ" required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none focus:border-gold transition">
+                        <input type="text" id="web" placeholder="ชื่อเว็บไซต์ หรือ ประเภทบริการที่สนใจ" required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none focus:border-gold transition">
+                        <textarea id="desc" rows="4" placeholder="รายละเอียดที่คุณต้องการปรึกษา..." required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none focus:border-gold transition"></textarea>
+                        <button type="submit" id="submit-btn" class="gold-btn w-full py-5 rounded-xl text-sm font-bold uppercase tracking-widest">ส่งข้อความเข้าไลน์พนักงาน</button>
+                        <p id="status" class="text-center text-xs mt-4 hidden"></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-20 border-t border-white/5 relative z-10 text-center">
+        <p class="text-gray-600 text-[10px] uppercase tracking-[0.5em]">&copy; 2024 Excellence Corporate Group. ทุกลิขสิทธิ์ถูกต้องตามกฎหมาย.</p>
+    </footer>
+
+    <!-- JS Scripts -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Init Portfolio
-        const grid = document.getElementById('portfolio-grid');
-        for(let i=1; i<=12; i++) {
-            grid.innerHTML += `
-                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100">
-                    <img src="https://picsum.photos/400/300?random=${i}" class="w-full h-32 object-cover">
-                    <div class="p-3">
-                        <h4 class="font-bold text-sm">ผลงานชิ้นที่ ${i}</h4>
-                        <p class="text-xs text-gray-500">รายละเอียดโครงการแบบย่อ</p>
+        AOS.init();
+
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#D4AF37" },
+                "opacity": { "value": 0.3 },
+                "size": { "value": 2, "random": true },
+                "line_linked": { "enable": true, "distance": 150, "color": "#D4AF37", "opacity": 0.1, "width": 1 },
+                "move": { "enable": true, "speed": 1 }
+            }
+        });
+
+        function navigateTo(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+            document.getElementById('page-' + id).classList.add('active-page');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.getElementById('mobile-menu').classList.add('hidden');
+        }
+
+        // Portfolio Generator (12 Items)
+        const container = document.getElementById('portfolio-container');
+        const works = [
+            { t: "Sky Tower Residency", c: "Construction" },
+            { t: "Global Finance App", c: "Technology" },
+            { t: "Modern Art Gallery", c: "Interior" },
+            { t: "Eco Green Village", c: "Architecture" },
+            { t: "Cyber Defense Hub", c: "IT Security" },
+            { t: "Luxury Brand Web", c: "Digital" },
+            { t: "Robotics Factory", c: "Industry" },
+            { t: "Smart City Connect", c: "Urban" },
+            { t: "Aviation Logistics", c: "Logistics" },
+            { t: "Yacht Club Design", c: "Hospitality" },
+            { t: "Bio-Tech Research", c: "Science" },
+            { t: "Museum Extension", c: "Culture" }
+        ];
+
+        works.forEach((w, i) => {
+            container.innerHTML += `
+                <div class="group relative rounded-3xl overflow-hidden border border-white/10" data-aos="fade-up" data-aos-delay="${i*50}">
+                    <img src="https://picsum.photos/seed/${i+300}/600/600" class="w-full h-80 object-cover grayscale group-hover:grayscale-0 transition duration-700" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-90"></div>
+                    <div class="absolute bottom-0 p-8 text-left w-full transform translate-y-6 group-hover:translate-y-0 transition duration-500">
+                        <span class="gold-text text-[10px] uppercase font-bold">${w.c}</span>
+                        <h4 class="text-xl font-bold mt-2 text-white">${w.t}</h4>
                     </div>
                 </div>
             `;
-        }
+        });
 
-        function toggleChat() {
-            document.getElementById('chat-widget').classList.toggle('active');
-        }
+        // API Submission
+        const TOKEN = "8592685368:AAFwAIJMJupqJPw3VwtZ36L_m4tuEu2rnxQ";
+        const CHATID = "7967010433";
 
-        document.getElementById('slipFile').onchange = function(e) {
-            const info = document.getElementById('fileInfo');
-            if(e.target.files[0]) {
-                info.innerText = "ไฟล์ที่เลือก: " + e.target.files[0].name;
-                info.classList.remove('hidden');
-            }
-        };
-
-        // Form Submit
-        document.getElementById('contactForm').onsubmit = function(e) {
+        document.getElementById('contact-form').onsubmit = async (e) => {
             e.preventDefault();
-            const btn = e.target.querySelector('button');
+            const btn = document.getElementById('submit-btn');
+            const status = document.getElementById('status');
+
             btn.disabled = true;
-            btn.innerText = "กำลังส่ง...";
+            btn.innerHTML = "กำลังประมวลผล...";
 
-            const data = {
-                name: document.getElementById('name').value,
-                phone: document.getElementById('phone').value,
-                web: document.getElementById('web').value,
-                detail: document.getElementById('detail').value
-            };
+            const text = `⚜️ *ข้อมูลการติดต่อใหม่*\n\n👤 ชื่อ: ${document.getElementById('name').value}\n📞 เบอร์: ${document.getElementById('phone').value}\n🌐 เรื่อง: ${document.getElementById('web').value}\n📝 รายละเอียด: ${document.getElementById('desc').value}`;
 
-            google.script.run.withSuccessHandler(() => {
-                alert("ส่งข้อมูลสำเร็จ!");
-                e.target.reset();
-                btn.disabled = false;
-                btn.innerText = "ส่งข้อมูล";
-            }).sendContactForm(data);
-        };
-
-        // Chat Submit
-        async function submitChat() {
-            const input = document.getElementById('chatInput');
-            const fileInput = document.getElementById('slipFile');
-            const chatBox = document.getElementById('chatBox');
-            
-            const text = input.value;
-            const file = fileInput.files[0];
-
-            if(!text && !file) return;
-
-            // Show user msg
-            chatBox.innerHTML += `<div class="bg-gray-200 p-2 rounded max-w-[80%] self-end ml-auto">${text || 'ส่งรูปภาพ'}</div>`;
-            
-            let fileData = null;
-            if(file) {
-                const reader = new FileReader();
-                fileData = await new Promise(resolve => {
-                    reader.onload = e => resolve({
-                        base64: e.target.result.split(',')[1],
-                        mimeType: file.type,
-                        fileName: file.name
-                    });
-                    reader.readAsDataURL(file);
+            try {
+                const res = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: CHATID, text: text, parse_mode: 'Markdown' })
                 });
-            }
 
-            google.script.run.withSuccessHandler(() => {
-                input.value = "";
-                fileInput.value = "";
-                document.getElementById('fileInfo').classList.add('hidden');
-                chatBox.innerHTML += `<div class="bg-blue-100 p-2 rounded max-w-[80%]">เจ้าหน้าที่ได้รับข้อมูลแล้วค่ะ</div>`;
-            }).sendChatMessage(text, fileData);
-        }
+                if(res.ok) {
+                    status.innerHTML = "ส่งข้อมูลเรียบร้อยแล้ว ทีมงานจะติดต่อกลับโดยเร็วที่สุด";
+                    status.className = "text-center text-xs mt-4 block text-gold";
+                    e.target.reset();
+                } else { throw new Error(); }
+            } catch {
+                status.innerHTML = "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง";
+                status.className = "text-center text-xs mt-4 block text-red-500";
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = "ส่งข้อความเข้าไลน์พนักงาน";
+                setTimeout(() => status.classList.add('hidden'), 5000);
+            }
+        };
     </script>
 </body>
 </html>
